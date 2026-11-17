@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
 import DepositPage from './pages/DepositPage.jsx';
 import WithdrawPage from './pages/WithdrawPage.jsx';
+import TransferPage from './pages/TransferPage.jsx';
 import TransactionsPage from './pages/TransactionsPage.jsx';
 
 function App() {
@@ -45,6 +46,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <WithdrawPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/transfer"
+              element={
+                <ProtectedRoute>
+                  <TransferPage />
                 </ProtectedRoute>
               }
             />

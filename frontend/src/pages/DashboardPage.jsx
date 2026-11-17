@@ -65,7 +65,7 @@ const DashboardPage = () => {
   const formatDate = (isoString) => {
     if (!isoString) return '-';
     const d = new Date(isoString);
-    return d.toLocaleDateString('en-US', {
+    return d.toLocaleDateString('en-IN', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -122,13 +122,13 @@ const DashboardPage = () => {
         <div className="account-card">
           <div className="account-card-title">Total Deposits</div>
           <div className="account-stat positive">{formatCurrency(summary?.total_deposits)}</div>
-          <div className="account-card-meta">All completed credit transactions</div>
+          <div className="account-card-meta">All completed incoming funds</div>
         </div>
 
         <div className="account-card">
           <div className="account-card-title">Total Withdrawals</div>
           <div className="account-stat negative">{formatCurrency(summary?.total_withdrawals)}</div>
-          <div className="account-card-meta">All completed debit transactions</div>
+          <div className="account-card-meta">All completed outgoing funds</div>
         </div>
       </div>
 
@@ -140,6 +140,9 @@ const DashboardPage = () => {
           </Link>
           <Link to="/withdraw" className="btn btn-action">
             Withdraw Funds
+          </Link>
+          <Link to="/transfer" className="btn btn-action">
+            Transfer Money
           </Link>
           <Link to="/transactions" className="btn btn-action">
             Transaction History
@@ -167,24 +170,38 @@ const DashboardPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {recentTransactions.map((tx) => (
-                  <tr key={tx.id}>
-                    <td>{formatDate(tx.created_at)}</td>
-                    <td>
-                      <span className={`badge-type badge-${tx.transaction_type?.toLowerCase()}`}>
-                        {tx.transaction_type}
-                      </span>
-                    </td>
-                    <td className={`tx-amount ${tx.transaction_type === 'DEPOSIT' ? 'amount-credit' : 'amount-debit'}`}>
-                      {tx.transaction_type === 'DEPOSIT' ? '+' : '-'} {formatCurrency(tx.amount)}
-                    </td>
-                    <td>
-                      <span className={`status-tag status-${tx.status?.toLowerCase()}`}>
-                        {tx.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {recentTransactions.map((tx) => {
+                  const isIncoming = tx.transaction_type === 'DEPOSIT' || tx.direction === 'IN';
+                  return (
+                    <tr key={tx.id}>
+                      <td>{formatDate(tx.created_at)}</td>
+                      <td>
+                        {tx.transaction_type === 'DEPOSIT' && (
+                          <span className="badge-type badge-deposit">DEPOSIT</span>
+                        )}
+                        {tx.transaction_type === 'WITHDRAWAL' && (
+                          <span className="badge-type badge-withdrawal">WITHDRAWAL</span>
+                        )}
+                        {tx.transaction_type === 'TRANSFER' && (
+                          <span className={`badge-type ${tx.direction === 'IN' ? 'badge-transfer-in' : 'badge-transfer-out'}`}>
+                            {tx.direction === 'IN' ? 'TRANSFER IN' : 'TRANSFER OUT'}
+                          </span>
+                        )}
+                        {tx.description && (
+                          <div className="tx-desc-subtext">{tx.description}</div>
+                        )}
+                      </td>
+                      <td className={`tx-amount ${isIncoming ? 'amount-credit' : 'amount-debit'}`}>
+                        {isIncoming ? '+' : '-'} {formatCurrency(tx.amount)}
+                      </td>
+                      <td>
+                        <span className={`status-tag status-${tx.status?.toLowerCase()}`}>
+                          {tx.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

@@ -36,7 +36,8 @@ app.get('/', (req, res) => {
       accountDashboard: 'GET /api/account/dashboard',
       transactions: 'GET /api/transactions',
       transactionDeposit: 'POST /api/transactions/deposit',
-      transactionWithdraw: 'POST /api/transactions/withdraw'
+      transactionWithdraw: 'POST /api/transactions/withdraw',
+      transactionTransfer: 'POST /api/transactions/transfer'
     }
   });
 });

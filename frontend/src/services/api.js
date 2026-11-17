@@ -124,6 +124,28 @@ export const withdrawFunds = async (amount, token) => {
   }
 };
 
+export const transferFunds = async (transferData, token) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/transactions/transfer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(transferData)
+    });
+
+    const data = await response.json();
+    return { ok: response.ok, status: response.status, data };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      data: { message: 'Unable to connect to the server. Please check if the backend is running.' }
+    };
+  }
+};
+
 export const getTransactionHistory = async (token, { type = 'ALL', sort = 'desc' } = {}) => {
   try {
     const params = new URLSearchParams();

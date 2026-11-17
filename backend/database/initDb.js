@@ -20,6 +20,9 @@ export const initDb = async () => {
       user_id INT NOT NULL,
       transaction_type ENUM('DEPOSIT', 'WITHDRAWAL', 'TRANSFER') NOT NULL,
       amount DECIMAL(15, 2) NOT NULL,
+      direction ENUM('IN', 'OUT') DEFAULT NULL,
+      related_account VARCHAR(20) DEFAULT NULL,
+      description VARCHAR(255) DEFAULT NULL,
       status ENUM('PENDING', 'COMPLETED', 'FAILED') NOT NULL DEFAULT 'COMPLETED',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       CONSTRAINT fk_transactions_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -30,6 +33,22 @@ export const initDb = async () => {
   try {
     await pool.query(createUsersTable);
     await pool.query(createTransactionsTable);
+
+    // Ensure columns exist if table was previously created with older schema
+    const [cols] = await pool.query("SHOW COLUMNS FROM transactions LIKE 'direction'");
+    if (cols.length === 0) {
+      await pool.query("ALTER TABLE transactions ADD COLUMN direction ENUM('IN', 'OUT') DEFAULT NULL AFTER amount");
+    }
+
+    const [relCols] = await pool.query("SHOW COLUMNS FROM transactions LIKE 'related_account'");
+    if (relCols.length === 0) {
+      await pool.query("ALTER TABLE transactions ADD COLUMN related_account VARCHAR(20) DEFAULT NULL AFTER direction");
+    }
+
+    const [descCols] = await pool.query("SHOW COLUMNS FROM transactions LIKE 'description'");
+    if (descCols.length === 0) {
+      await pool.query("ALTER TABLE transactions ADD COLUMN description VARCHAR(255) DEFAULT NULL AFTER related_account");
+    }
   } catch (error) {
     const errorDetails = error.message || error.code || 'Connection error';
     console.error('Database initialization warning:', errorDetails);

@@ -43,15 +43,15 @@ export const getDashboard = async (req, res, next) => {
 
     const [summaryRows] = await pool.query(
       `SELECT 
-        COALESCE(SUM(CASE WHEN transaction_type = 'DEPOSIT' AND status = 'COMPLETED' THEN amount ELSE 0 END), 0.00) AS total_deposits,
-        COALESCE(SUM(CASE WHEN transaction_type = 'WITHDRAWAL' AND status = 'COMPLETED' THEN amount ELSE 0 END), 0.00) AS total_withdrawals
+        COALESCE(SUM(CASE WHEN (transaction_type = 'DEPOSIT' OR (transaction_type = 'TRANSFER' AND direction = 'IN')) AND status = 'COMPLETED' THEN amount ELSE 0 END), 0.00) AS total_deposits,
+        COALESCE(SUM(CASE WHEN (transaction_type = 'WITHDRAWAL' OR (transaction_type = 'TRANSFER' AND direction = 'OUT')) AND status = 'COMPLETED' THEN amount ELSE 0 END), 0.00) AS total_withdrawals
        FROM transactions
        WHERE user_id = ?`,
       [userId]
     );
 
     const [recentTransactions] = await pool.query(
-      `SELECT id, transaction_type, amount, status, created_at
+      `SELECT id, transaction_type, amount, direction, related_account, description, status, created_at
        FROM transactions
        WHERE user_id = ?
        ORDER BY created_at DESC, id DESC

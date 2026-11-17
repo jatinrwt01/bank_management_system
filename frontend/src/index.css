@@ -478,6 +478,24 @@ body {
   border: 1px solid #d2e3fc;
 }
 
+.badge-transfer-in {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.badge-transfer-out {
+  background-color: #fce8e6;
+  color: #c5221f;
+  border: 1px solid #fad2cf;
+}
+
+.tx-desc-subtext {
+  font-size: 11px;
+  color: #666666;
+  margin-top: 3px;
+}
+
 .tx-amount {
   font-weight: bold;
 }

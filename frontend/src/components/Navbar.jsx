@@ -42,6 +42,12 @@ const Navbar = () => {
                 Withdraw
               </Link>
               <Link
+                to="/transfer"
+                className={`nav-link ${isActive('/transfer') ? 'active' : ''}`}
+              >
+                Transfer
+              </Link>
+              <Link
                 to="/transactions"
                 className={`nav-link ${isActive('/transactions') ? 'active' : ''}`}
               >

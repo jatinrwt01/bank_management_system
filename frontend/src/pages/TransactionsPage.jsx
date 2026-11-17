@@ -140,31 +140,45 @@ const TransactionsPage = () => {
                 <tr>
                   <th>Transaction ID</th>
                   <th>Date &amp; Time</th>
-                  <th>Type</th>
+                  <th>Type &amp; Description</th>
                   <th>Amount</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((tx) => (
-                  <tr key={tx.id}>
-                    <td className="tx-id-cell">#TXN-{String(tx.id).padStart(5, '0')}</td>
-                    <td>{formatDate(tx.created_at)}</td>
-                    <td>
-                      <span className={`badge-type badge-${tx.transaction_type?.toLowerCase()}`}>
-                        {tx.transaction_type}
-                      </span>
-                    </td>
-                    <td className={`tx-amount ${tx.transaction_type === 'DEPOSIT' ? 'amount-credit' : 'amount-debit'}`}>
-                      {tx.transaction_type === 'DEPOSIT' ? '+' : '-'} {formatCurrency(tx.amount)}
-                    </td>
-                    <td>
-                      <span className={`status-tag status-${tx.status?.toLowerCase()}`}>
-                        {tx.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {transactions.map((tx) => {
+                  const isIncoming = tx.transaction_type === 'DEPOSIT' || tx.direction === 'IN';
+                  return (
+                    <tr key={tx.id}>
+                      <td className="tx-id-cell">#TXN-{String(tx.id).padStart(5, '0')}</td>
+                      <td>{formatDate(tx.created_at)}</td>
+                      <td>
+                        {tx.transaction_type === 'DEPOSIT' && (
+                          <span className="badge-type badge-deposit">DEPOSIT</span>
+                        )}
+                        {tx.transaction_type === 'WITHDRAWAL' && (
+                          <span className="badge-type badge-withdrawal">WITHDRAWAL</span>
+                        )}
+                        {tx.transaction_type === 'TRANSFER' && (
+                          <span className={`badge-type ${tx.direction === 'IN' ? 'badge-transfer-in' : 'badge-transfer-out'}`}>
+                            {tx.direction === 'IN' ? 'TRANSFER IN' : 'TRANSFER OUT'}
+                          </span>
+                        )}
+                        {tx.description && (
+                          <div className="tx-desc-subtext">{tx.description}</div>
+                        )}
+                      </td>
+                      <td className={`tx-amount ${isIncoming ? 'amount-credit' : 'amount-debit'}`}>
+                        {isIncoming ? '+' : '-'} {formatCurrency(tx.amount)}
+                      </td>
+                      <td>
+                        <span className={`status-tag status-${tx.status?.toLowerCase()}`}>
+                          {tx.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
