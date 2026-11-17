@@ -1,9 +1,12 @@
+import './config/env.js';
 import express from 'express';
 import cors from 'cors';
-import 'dotenv/config';
 
 import healthRoutes from './routes/healthRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import accountRoutes from './routes/accountRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
+import { initDb } from './database/initDb.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,12 +28,17 @@ app.get('/', (req, res) => {
     name: 'Online Bank Management System API',
     version: '1.0.0',
     endpoints: {
-      healthCheck: '/api/health'
+      healthCheck: '/api/health',
+      authRegister: 'POST /api/auth/register',
+      authLogin: 'POST /api/auth/login',
+      accountProfile: 'GET /api/account/profile'
     }
   });
 });
 
 app.use('/api', healthRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/account', accountRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
@@ -40,6 +48,8 @@ app.use((req, res) => {
 });
 
 app.use(errorHandler);
+
+initDb();
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
