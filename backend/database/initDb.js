@@ -10,6 +10,8 @@ export const initDb = async () => {
       password VARCHAR(255) NOT NULL,
       account_number VARCHAR(20) NOT NULL UNIQUE,
       balance DECIMAL(15, 2) NOT NULL DEFAULT 10000.00,
+      role ENUM('CUSTOMER', 'ADMIN', 'EMPLOYEE') NOT NULL DEFAULT 'CUSTOMER',
+      account_status ENUM('ACTIVE', 'BLOCKED') NOT NULL DEFAULT 'ACTIVE',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
   `;
@@ -33,6 +35,17 @@ export const initDb = async () => {
   try {
     await pool.query(createUsersTable);
     await pool.query(createTransactionsTable);
+
+    // Ensure columns exist on users if table was previously created with older schema
+    const [roleCols] = await pool.query("SHOW COLUMNS FROM users LIKE 'role'");
+    if (roleCols.length === 0) {
+      await pool.query("ALTER TABLE users ADD COLUMN role ENUM('CUSTOMER', 'ADMIN', 'EMPLOYEE') NOT NULL DEFAULT 'CUSTOMER' AFTER balance");
+    }
+
+    const [statusCols] = await pool.query("SHOW COLUMNS FROM users LIKE 'account_status'");
+    if (statusCols.length === 0) {
+      await pool.query("ALTER TABLE users ADD COLUMN account_status ENUM('ACTIVE', 'BLOCKED') NOT NULL DEFAULT 'ACTIVE' AFTER role");
+    }
 
     // Ensure columns exist if table was previously created with older schema
     const [cols] = await pool.query("SHOW COLUMNS FROM transactions LIKE 'direction'");

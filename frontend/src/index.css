@@ -694,3 +694,354 @@ body {
 .empty-actions {
   margin-top: 14px;
 }
+
+/* Badges for Status */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-active {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.badge-blocked {
+  background-color: #fce8e6;
+  color: #c5221f;
+  border: 1px solid #fad2cf;
+}
+
+/* Tabs */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 2px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.admin-tab-btn {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -4px;
+  border-radius: 3px 3px 0 0;
+}
+
+.admin-tab-btn:hover {
+  color: #003366;
+  background-color: #f1f5f9;
+}
+
+.admin-tab-btn.active {
+  color: #003366;
+  border-bottom: 3px solid #003366;
+  background-color: #ffffff;
+}
+
+/* Search bar forms */
+.search-bar-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 240px;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #003366;
+}
+
+/* Small action buttons in tables */
+.btn-action-small {
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #334155;
+}
+
+.btn-action-small:hover {
+  background-color: #f1f5f9;
+}
+
+.btn-status-block {
+  border-color: #fca5a5;
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.btn-status-block:hover {
+  background-color: #fee2e2;
+}
+
+.btn-status-unblock {
+  border-color: #86efac;
+  color: #16a34a;
+  background-color: #f0fdf4;
+}
+
+.btn-status-unblock:hover {
+  background-color: #dcfce7;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+/* Modal / Inspection Dialog */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #003366;
+  color: #ffffff;
+  border-radius: 3px 3px 0 0;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   Role-Based Portal Selection & Context Styles
+   ========================================================================== */
+
+.portal-selection-container {
+  width: 100%;
+  max-width: 980px;
+  margin: 10px auto 30px;
+}
+
+.portal-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.portal-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #003366;
+}
+
+.portal-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.portal-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.portal-card {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-top: 4px solid #003366;
+  border-radius: 2px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.portal-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.portal-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.portal-tag-customer {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.portal-tag-admin {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border: 1px solid #d2e3fc;
+}
+
+.portal-tag-employee {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.portal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #003366;
+  margin-top: 2px;
+}
+
+.portal-desc {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 22px;
+  flex: 1;
+}
+
+.portal-action {
+  margin-bottom: 14px;
+}
+
+.portal-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  padding: 9px 14px;
+}
+
+.portal-footer-note {
+  font-size: 12px;
+  color: #64748b;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+  text-align: center;
+}
+
+/* Portal Context Bar inside Login Card */
+.portal-context-bar {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.context-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.context-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.context-tab {
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.context-tab:hover {
+  background-color: #f1f5f9;
+}
+
+.context-tab.active {
+  background-color: #003366;
+  color: #ffffff;
+  border-color: #003366;
+}
+
+.auth-restricted-notice {
+  font-size: 12px;
+  color: #64748b;
+  font-style: italic;
+  margin-bottom: 4px;
+}

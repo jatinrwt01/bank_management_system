@@ -3,7 +3,7 @@ import pool from '../config/db.js';
 export const getProfile = async (req, res, next) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, full_name, email, phone, account_number, balance, created_at FROM users WHERE id = ?',
+      'SELECT id, full_name, email, phone, account_number, balance, role, account_status, created_at FROM users WHERE id = ?',
       [req.user.id]
     );
 
@@ -30,7 +30,7 @@ export const getDashboard = async (req, res, next) => {
     const userId = req.user.id;
 
     const [userRows] = await pool.query(
-      'SELECT id, full_name, email, phone, account_number, balance, created_at FROM users WHERE id = ?',
+      'SELECT id, full_name, email, phone, account_number, balance, role, account_status, created_at FROM users WHERE id = ?',
       [userId]
     );
 

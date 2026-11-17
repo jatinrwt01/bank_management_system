@@ -62,7 +62,7 @@ export const register = async (req, res, next) => {
     const accountNumber = await generateUniqueAccountNumber();
 
     const [result] = await pool.query(
-      'INSERT INTO users (full_name, email, phone, password, account_number, balance) VALUES (?, ?, ?, ?, ?, 10000.00)',
+      'INSERT INTO users (full_name, email, phone, password, account_number, balance, role, account_status) VALUES (?, ?, ?, ?, ?, 10000.00, "CUSTOMER", "ACTIVE")',
       [fullName, email, phone, hashedPassword, accountNumber]
     );
 
@@ -76,7 +76,9 @@ export const register = async (req, res, next) => {
           email,
           phone,
           account_number: accountNumber,
-          balance: '10000.00'
+          balance: '10000.00',
+          role: 'CUSTOMER',
+          account_status: 'ACTIVE'
         }
       }
     });
@@ -106,6 +108,14 @@ export const login = async (req, res, next) => {
     }
 
     const user = users[0];
+
+    if (user.account_status === 'BLOCKED') {
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Your account is blocked. Please contact customer support.'
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
@@ -118,6 +128,7 @@ export const login = async (req, res, next) => {
       {
         id: user.id,
         email: user.email,
+        role: user.role,
         accountNumber: user.account_number
       },
       process.env.JWT_SECRET || 'bank_default_jwt_secret_key_2026',
@@ -135,7 +146,9 @@ export const login = async (req, res, next) => {
           email: user.email,
           phone: user.phone,
           account_number: user.account_number,
-          balance: user.balance
+          balance: user.balance,
+          role: user.role,
+          account_status: user.account_status
         }
       }
     });

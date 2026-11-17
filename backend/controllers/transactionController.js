@@ -20,7 +20,7 @@ export const deposit = async (req, res, next) => {
     await connection.beginTransaction();
 
     const [userRows] = await connection.query(
-      'SELECT id, balance FROM users WHERE id = ? FOR UPDATE',
+      'SELECT id, balance, account_status FROM users WHERE id = ? FOR UPDATE',
       [userId]
     );
 
@@ -30,6 +30,15 @@ export const deposit = async (req, res, next) => {
       return res.status(404).json({
         status: 'fail',
         message: 'User account not found.'
+      });
+    }
+
+    if (userRows[0].account_status === 'BLOCKED') {
+      await connection.rollback();
+      connection.release();
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Your account is blocked. Transactions are not permitted.'
       });
     }
 
@@ -94,7 +103,7 @@ export const withdraw = async (req, res, next) => {
     await connection.beginTransaction();
 
     const [userRows] = await connection.query(
-      'SELECT id, balance FROM users WHERE id = ? FOR UPDATE',
+      'SELECT id, balance, account_status FROM users WHERE id = ? FOR UPDATE',
       [userId]
     );
 
@@ -104,6 +113,15 @@ export const withdraw = async (req, res, next) => {
       return res.status(404).json({
         status: 'fail',
         message: 'User account not found.'
+      });
+    }
+
+    if (userRows[0].account_status === 'BLOCKED') {
+      await connection.rollback();
+      connection.release();
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Your account is blocked. Transactions are not permitted.'
       });
     }
 
@@ -215,7 +233,7 @@ export const transfer = async (req, res, next) => {
     const secondId = Math.max(senderId, recipientId);
 
     const [lockedUsers] = await connection.query(
-      'SELECT id, full_name, account_number, balance FROM users WHERE id IN (?, ?) ORDER BY id FOR UPDATE',
+      'SELECT id, full_name, account_number, balance, account_status FROM users WHERE id IN (?, ?) ORDER BY id FOR UPDATE',
       [firstId, secondId]
     );
 
@@ -228,6 +246,24 @@ export const transfer = async (req, res, next) => {
       return res.status(404).json({
         status: 'fail',
         message: 'Account verification failed during transaction.'
+      });
+    }
+
+    if (sender.account_status === 'BLOCKED') {
+      await connection.rollback();
+      connection.release();
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Your account is blocked. Transfers are not permitted.'
+      });
+    }
+
+    if (lockedRecipient.account_status === 'BLOCKED') {
+      await connection.rollback();
+      connection.release();
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Recipient account is blocked. Transfer cannot be processed.'
       });
     }
 

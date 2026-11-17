@@ -6,6 +6,8 @@ import healthRoutes from './routes/healthRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import accountRoutes from './routes/accountRoutes.js';
 import transactionRoutes from './routes/transactionRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import employeeRoutes from './routes/employeeRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
 import { initDb } from './database/initDb.js';
 
@@ -46,6 +48,8 @@ app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/account', accountRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/employee', employeeRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "seed:admin": "node scripts/createAdmin.js",
+    "seed:employee": "node scripts/createAdmin.js \"Employee User\" \"employee@bank.com\" \"Employee@123456\" \"9876543211\" EMPLOYEE",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
