@@ -60,3 +60,22 @@ export const getProfile = async (token) => {
     };
   }
 };
+
+export const getDashboardData = async (token) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/account/dashboard`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+    return { ok: response.ok, status: response.status, data };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      data: { message: 'Unable to connect to the server. Please check if the backend is running.' }
+    };
+  }
+};

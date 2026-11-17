@@ -1,7 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const token = localStorage.getItem('token');
 
   const handleLogout = () => {
@@ -9,6 +10,8 @@ const Navbar = () => {
     localStorage.removeItem('user');
     navigate('/login');
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="header">
@@ -20,15 +23,52 @@ const Navbar = () => {
         <nav className="nav-links">
           {token ? (
             <>
-              <Link to="/dashboard" className="nav-link">Dashboard</Link>
-              <button type="button" onClick={handleLogout} className="btn-logout">
+              <Link
+                to="/dashboard"
+                className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/deposit"
+                className={`nav-link ${isActive('/deposit') ? 'active' : ''}`}
+              >
+                Deposit
+              </Link>
+              <Link
+                to="/withdraw"
+                className={`nav-link ${isActive('/withdraw') ? 'active' : ''}`}
+              >
+                Withdraw
+              </Link>
+              <Link
+                to="/transactions"
+                className={`nav-link ${isActive('/transactions') ? 'active' : ''}`}
+              >
+                Transactions
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="btn-logout"
+              >
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="nav-link">Login</Link>
-              <Link to="/register" className="nav-link">Register</Link>
+              <Link
+                to="/login"
+                className={`nav-link ${isActive('/login') ? 'active' : ''}`}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className={`nav-link ${isActive('/register') ? 'active' : ''}`}
+              >
+                Register
+              </Link>
             </>
           )}
         </nav>
