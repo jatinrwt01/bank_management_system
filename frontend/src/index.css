@@ -598,3 +598,81 @@ body {
   padding: 40px 20px;
   color: #555555;
 }
+
+/* Transaction Pages (Deposit & Withdraw) */
+.transaction-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.current-balance-card {
+  border-left: 4px solid #003366;
+  background-color: #ffffff;
+}
+
+.transaction-form {
+  margin-top: 14px;
+}
+
+.field-hint {
+  display: block;
+  font-size: 11px;
+  color: #777777;
+  margin-top: 4px;
+}
+
+/* Transaction History Filters & Toolbar */
+.filter-toolbar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 14px 20px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.filter-select {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  background-color: #ffffff;
+  color: #222222;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #003366;
+}
+
+.tx-id-cell {
+  font-family: monospace;
+  font-weight: bold;
+  color: #003366;
+}
+
+.tx-count {
+  font-size: 12px;
+  color: #666666;
+  font-weight: normal;
+  margin-left: 6px;
+}
+
+.empty-actions {
+  margin-top: 14px;
+}

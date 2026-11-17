@@ -5,6 +5,7 @@ import cors from 'cors';
 import healthRoutes from './routes/healthRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import accountRoutes from './routes/accountRoutes.js';
+import transactionRoutes from './routes/transactionRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
 import { initDb } from './database/initDb.js';
 
@@ -31,7 +32,11 @@ app.get('/', (req, res) => {
       healthCheck: '/api/health',
       authRegister: 'POST /api/auth/register',
       authLogin: 'POST /api/auth/login',
-      accountProfile: 'GET /api/account/profile'
+      accountProfile: 'GET /api/account/profile',
+      accountDashboard: 'GET /api/account/dashboard',
+      transactions: 'GET /api/transactions',
+      transactionDeposit: 'POST /api/transactions/deposit',
+      transactionWithdraw: 'POST /api/transactions/withdraw'
     }
   });
 });
@@ -39,6 +44,7 @@ app.get('/', (req, res) => {
 app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/account', accountRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

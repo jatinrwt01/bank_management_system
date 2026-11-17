@@ -4,7 +4,9 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
-import PlaceholderPage from './pages/PlaceholderPage.jsx';
+import DepositPage from './pages/DepositPage.jsx';
+import WithdrawPage from './pages/WithdrawPage.jsx';
+import TransactionsPage from './pages/TransactionsPage.jsx';
 
 function App() {
   const token = localStorage.getItem('token');
@@ -34,10 +36,7 @@ function App() {
               path="/deposit"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage
-                    title="Deposit Funds"
-                    description="Deposit money securely into your savings account"
-                  />
+                  <DepositPage />
                 </ProtectedRoute>
               }
             />
@@ -45,10 +44,7 @@ function App() {
               path="/withdraw"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage
-                    title="Withdraw Funds"
-                    description="Withdraw money from your available savings balance"
-                  />
+                  <WithdrawPage />
                 </ProtectedRoute>
               }
             />
@@ -56,10 +52,7 @@ function App() {
               path="/transactions"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage
-                    title="Transaction History"
-                    description="Complete log and account statement of all transactions"
-                  />
+                  <TransactionsPage />
                 </ProtectedRoute>
               }
             />
